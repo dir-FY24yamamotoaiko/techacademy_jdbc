@@ -5,9 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
 
 
-public class DbConnectSample01 {
+public class DbConnectSample02 {
 
 	public static void main(String[] args) {
 		//データベース接続と結果取得のための変数
@@ -54,7 +55,16 @@ public class DbConnectSample01 {
 	            System.err.println("データベースに異常が発生しました。");
 	            e.printStackTrace();
 	            
-		}finally {
+	            //6-1.データの更新を行う
+	            sql = "update country set Population = 105000 where Code = 'ABW'";
+	            int count = stmt.executeUpdate(sql);
+	            System.out.println(count);
+	            
+	        }catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			
+	            
+	        }finally {
 			//7. 接続を閉じる
 			if (rs != null) {
 				try {
